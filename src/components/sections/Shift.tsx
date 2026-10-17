@@ -32,7 +32,7 @@ function SearchPage() {
         <span className="size-3 rounded-full border-[1.5px] border-muted" aria-hidden />
         <span className="text-[0.9rem] text-muted">best sunscreen for oily skin under ₹500</span>
       </div>
-      <ol className="flex flex-col gap-3.5">
+      <ol className="flex flex-col gap-3.5 md:gap-2.5">
         {RESULTS.map((r, i) => (
           <li key={r.site} data-result className={i >= 6 ? "hidden md:block" : ""}>
             <p className="t-label !text-[0.75rem]">{r.site}</p>
@@ -77,7 +77,7 @@ export function Shift() {
       mm.add(MQ.pinned, () => {
         const tl = gsap.timeline({
           defaults: { ease: "power2.out" },
-          scrollTrigger: { trigger: "[data-stage]", start: "top top+=96", end: "+=900", scrub: 0.6, pin: true },
+          scrollTrigger: { trigger: "[data-shift]", start: "top top+=72", end: "+=900", scrub: 0.6, pin: true },
         });
         tl.to("[data-result]", { autoAlpha: 0, y: -24, stagger: 0.05, duration: 0.5 })
           .to("[data-search]", { scale: 0.92, autoAlpha: 0, duration: 0.5 }, "-=0.25")
@@ -100,8 +100,8 @@ export function Shift() {
   );
 
   return (
-    <section ref={root} aria-labelledby="shift-h" className="section overflow-hidden">
-      <div className="wrap grid-12 gap-y-10">
+    <section ref={root} aria-labelledby="shift-h" className="section overflow-hidden md:motion-safe:pt-16">
+      <div data-shift className="wrap grid-12 gap-y-10">
         <div className="col-span-12 md:col-span-5">
           <h2 id="shift-h" className="t-h2 max-w-[12ch]">
             {shift.heading}
