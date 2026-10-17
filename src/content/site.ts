@@ -16,6 +16,7 @@ export const site = {
       { label: "FAQ", href: "#faq" },
     ],
     cta: primaryCta,
+    ctaShort: "Free audit",
     themeToggle: { toLight: "Switch to light theme", toDark: "Switch to dark theme" },
   },
   footer: {

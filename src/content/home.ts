@@ -59,8 +59,7 @@ export const hero = {
 
 export const shift = {
   heading: "Search gave ten links. AI gives one answer.",
-  searchLabel: "A search results page",
-  answerLabel: "An AI answer",
+  illustrationLabel: "Illustration: a search results page, then an AI answer",
   line: "There's no page two in an AI answer.",
   support: {
     text: "And India is asking. ChatGPT alone has 100 million users here every week, its second-largest market after the US.",
