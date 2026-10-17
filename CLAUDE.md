@@ -84,8 +84,17 @@ Feel: an editorial data story, calm and a little cold. The data is the hero.
 
 ## Motion
 
-- Lenis smooth scroll, synced with GSAP ScrollTrigger in one RAF loop. Anchor links offset for
-  the sticky nav.
+- All scroll motion lives in `src/lib/motion-runtime.ts`: Lenis smooth scroll synced with GSAP
+  ScrollTrigger in one RAF loop. `MotionBoot` loads it when the browser is idle after first
+  paint, so GSAP and Lenis never delay the hero. Sections stay server components rendered in
+  their final state; the runtime animates *from* that state via `data-*` hooks.
+- Pinned desktop versions show only under the `motion-ready` class, which the runtime sets on
+  `<html>`. Otherwise (phones, no JavaScript, reduced motion) the stacked version shows.
+  Pinned versions are `aria-hidden`; the stacked version stays available to screen readers.
+- Never use ScrollTrigger `once: true`: such triggers delete themselves during refresh when the
+  page loads already scrolled (e.g. `/#audit`) and crash it. Use
+  `toggleActions: "play none none none"`.
+- In-page links go through `src/lib/scroll.ts`, which lands below the sticky nav.
 - GSAP ScrollTrigger for pinned and scrubbed sections; Motion (`motion/react`) for component
   enters, hovers and layout. Never both on the same element.
 - Ease-out, 300 to 800 ms, nothing bouncy. Every animation explains something or guides the
