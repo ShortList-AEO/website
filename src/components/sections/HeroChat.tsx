@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { hero } from "@/content/home";
 import type { Lang } from "@/content/types";
-import { MQ } from "@/lib/gsap";
+const REDUCED = "(prefers-reduced-motion: reduce)";
 
 const LANG_LABEL: Record<Lang, string> = { en: "English", hinglish: "Hinglish", hi: "Hindi" };
 const BRANDS = ["Vedra", "GlowLab", "Saffra Skin", "वेद्रा", "ग्लोलैब", "सैफ्रा स्किन"];
@@ -48,7 +48,7 @@ export function HeroChat() {
   // Server render shows the question with the answer held back (CSS) so it can stream in.
   // Reduced motion: reveal everything and don't autoplay.
   useEffect(() => {
-    const reduced = window.matchMedia(MQ.reduced).matches;
+    const reduced = window.matchMedia(REDUCED).matches;
     const io = new IntersectionObserver(([e]) => (visible.current = !!e?.isIntersecting));
     if (rootRef.current) io.observe(rootRef.current);
     const start = window.setTimeout(() => {
@@ -137,27 +137,44 @@ export function HeroChat() {
           <span className="t-label">AI assistant</span>
         </div>
 
-        <div className="flex min-h-[318px] flex-col gap-4 p-4 sm:min-h-[296px] sm:p-5">
+        <div className="flex flex-col gap-4 p-4 sm:p-5">
           <div className="ml-auto max-w-[88%] rounded-[14px] rounded-br-[4px] bg-rival-soft px-4 py-2.5">
-            <p lang={lang} className="text-[1rem] leading-snug">
-              {question}
-              {phase === "typing" ? (
-                <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-ink [animation:caret_1s_steps(1)_infinite]" />
-              ) : null}
+            {/* Invisible copies of every question reserve the bubble's largest size, so typing and
+                switching languages never shift layout. */}
+            <p className="grid text-[1rem] leading-snug">
+              {chats.map((c) => (
+                <span key={c.lang} aria-hidden className="invisible [grid-area:1/1]" lang={c.lang === "hi" ? "hi" : "en-IN"}>
+                  {c.question}
+                </span>
+              ))}
+              <span className="[grid-area:1/1]" lang={lang}>
+                {question}
+                {phase === "typing" ? (
+                  <span className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-ink [animation:caret_1s_steps(1)_infinite]" />
+                ) : null}
+              </span>
             </p>
           </div>
 
-          <div className="max-w-[94%]">
+          <div className="relative max-w-[94%]">
             {phase === "thinking" ? (
-              <p className="t-label flex gap-1" aria-hidden>
+              <p className="t-label absolute flex gap-1" aria-hidden>
                 <span className="[animation:caret_1.2s_steps(1)_infinite]">Searching the web</span>
               </p>
             ) : null}
-            {showAnswer ? (
-              <p data-answer lang={lang} className="text-[0.98rem] leading-relaxed text-muted">
-                {highlight(answer)}
-              </p>
-            ) : null}
+            {/* Same for the answer: the tallest answer's height is reserved while one streams in. */}
+            <p className="grid text-[0.98rem] leading-relaxed text-muted">
+              {chats.map((c) => (
+                <span key={c.lang} aria-hidden className="invisible [grid-area:1/1]" lang={c.lang === "hi" ? "hi" : "en-IN"}>
+                  {highlight(c.answer)}
+                </span>
+              ))}
+              {showAnswer ? (
+                <span data-answer className="[grid-area:1/1]" lang={lang}>
+                  {highlight(answer)}
+                </span>
+              ) : null}
+            </p>
           </div>
 
           <div

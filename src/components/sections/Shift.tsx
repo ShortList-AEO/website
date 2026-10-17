@@ -1,9 +1,5 @@
-"use client";
-
-import { useRef } from "react";
 import { shift } from "@/content/home";
 import { Cite } from "@/components/ui/Cite";
-import { gsap, MQ, useGSAP } from "@/lib/gsap";
 
 /** Illustration only: generic results pages (no real brand names in titles). */
 const RESULTS = [
@@ -68,39 +64,10 @@ function AnswerCard() {
   );
 }
 
+/** Search page collapses into one AI answer as you scroll (motion in lib/motion-runtime.ts). */
 export function Shift() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MQ.pinned, () => {
-        const tl = gsap.timeline({
-          defaults: { ease: "power2.out" },
-          scrollTrigger: { trigger: "[data-shift]", start: "top top+=72", end: "+=900", scrub: 0.6, pin: true },
-        });
-        tl.to("[data-result]", { autoAlpha: 0, y: -24, stagger: 0.05, duration: 0.5 })
-          .to("[data-search]", { scale: 0.92, autoAlpha: 0, duration: 0.5 }, "-=0.25")
-          .fromTo("[data-answer-card]", { autoAlpha: 0, y: 40, scale: 0.96 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.6 }, "-=0.35")
-          .from("[data-pick]", { autoAlpha: 0, y: 12, stagger: 0.12, duration: 0.4 }, "-=0.2")
-          .from("[data-line]", { autoAlpha: 0, y: 16, duration: 0.4 });
-      });
-      mm.add(`(max-width: 767px) and ${MQ.motion}`, () => {
-        gsap.from("[data-answer-card]", {
-          autoAlpha: 0,
-          y: 32,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: { trigger: "[data-answer-card]", start: "top 85%", toggleActions: "play none none none" },
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
-
   return (
-    <section ref={root} aria-labelledby="shift-h" className="section overflow-hidden md:motion-safe:pt-16">
+    <section aria-labelledby="shift-h" className="section overflow-hidden md:motion-ready:pt-16">
       <div data-shift className="wrap grid-12 gap-y-10">
         <div className="col-span-12 md:col-span-5">
           <h2 id="shift-h" className="t-h2 max-w-[12ch]">
@@ -113,7 +80,7 @@ export function Shift() {
         </div>
 
         {/* Desktop: one stage, search page collapses into the answer as you scroll. */}
-        <div data-stage className="relative col-span-12 hidden md:col-span-7 md:col-start-6 md:motion-safe:block">
+        <div data-stage aria-hidden className="relative col-span-12 hidden md:col-span-7 md:col-start-6 md:motion-ready:block">
           <p className="t-label mb-3">Illustration</p>
           <div className="relative">
             <div data-search>
@@ -128,8 +95,8 @@ export function Shift() {
           </p>
         </div>
 
-        {/* Phones, and desktop with reduced motion: before and after, stacked. */}
-        <div className="col-span-12 flex flex-col gap-5 md:col-span-7 md:col-start-6 md:motion-safe:hidden">
+        {/* Phones, no JavaScript, and reduced motion: before and after, stacked. */}
+        <div data-stacked className="col-span-12 flex flex-col gap-5 md:col-span-7 md:col-start-6 md:motion-ready:sr-only">
           <p className="t-label">{shift.illustrationLabel}</p>
           <SearchPage />
           <div data-answer-card>

@@ -1,20 +1,13 @@
-"use client";
-
-import { useRef } from "react";
 import { hindi } from "@/content/home";
 import { byLanguage, CLIENT, LEADER } from "@/content/sample-report";
 import { RangeBar, RangeValue } from "@/components/ui/RangeBar";
 import { SampleTag } from "@/components/ui/SampleTag";
-import { useChartReveal } from "@/components/ui/useChartReveal";
 
 const SCRIPT: Record<string, string> = { en: "English", hinglish: "Hinglish", hi: "हिंदी" };
 
 export function Hindi() {
-  const root = useRef<HTMLElement>(null);
-  useChartReveal(root);
-
   return (
-    <section ref={root} aria-labelledby="hindi-h" className="section rule-top">
+    <section aria-labelledby="hindi-h" className="section rule-top">
       <div className="wrap grid-12 gap-y-12">
         <div className="col-span-12 lg:col-span-5">
           <h2 id="hindi-h" className="t-h2">

@@ -6,8 +6,8 @@ import { Providers } from "@/components/providers/Providers";
 import "./globals.css";
 
 const display = Schibsted_Grotesk({ subsets: ["latin"], weight: ["700", "800"], variable: "--ff-display", display: "swap" });
-const body = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--ff-body", display: "swap" });
-const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--ff-mono", display: "swap" });
+const body = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--ff-body", display: "swap" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400"], variable: "--ff-mono", display: "swap" });
 const deva = IBM_Plex_Sans_Devanagari({
   subsets: ["devanagari"],
   weight: ["400", "600"],

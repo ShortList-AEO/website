@@ -1,43 +1,9 @@
-"use client";
-
-import { useRef } from "react";
 import { howItWorks } from "@/content/home";
-import { gsap, MQ, useGSAP } from "@/lib/gsap";
 
 /** Three steps on a vertical line that draws itself as you scroll. */
 export function HowItWorks() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MQ.motion, () => {
-        gsap.fromTo(
-          "[data-line]",
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            ease: "none",
-            scrollTrigger: { trigger: "[data-steps]", start: "top 70%", end: "bottom 60%", scrub: 0.5 },
-          },
-        );
-        gsap.utils.toArray<HTMLElement>("[data-step]").forEach((step) => {
-          gsap.from(step, {
-            autoAlpha: 0,
-            y: 24,
-            duration: 0.7,
-            ease: "power2.out",
-            scrollTrigger: { trigger: step, start: "top 78%", toggleActions: "play none none none" },
-          });
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
-
   return (
-    <section ref={root} id="how-it-works" aria-labelledby="how-h" className="section rule-top">
+    <section id="how-it-works" aria-labelledby="how-h" className="section rule-top">
       <div className="wrap grid-12 gap-y-12">
         <h2 id="how-h" className="t-h2 col-span-12 md:col-span-4">
           {howItWorks.heading}

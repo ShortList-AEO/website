@@ -1,7 +1,7 @@
 "use client";
 
 import type { Cta } from "@/content/types";
-import { scrollToHash, useLenis } from "@/components/providers/SmoothScroll";
+import { scrollToHash } from "@/lib/scroll";
 
 const styles = {
   primary:
@@ -20,7 +20,6 @@ export function CtaLink({
   variant?: keyof typeof styles;
   className?: string;
 }) {
-  const lenis = useLenis();
   return (
     <a
       href={cta.href}
@@ -28,7 +27,7 @@ export function CtaLink({
       onClick={(e) => {
         if (!cta.href.startsWith("#")) return;
         e.preventDefault();
-        scrollToHash(lenis.current, cta.href);
+        scrollToHash(cta.href);
       }}
     >
       {cta.label}

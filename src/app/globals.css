@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Set on <html> once the scroll-motion runtime runs (never under reduced motion). */
+@custom-variant motion-ready (&:where(.motion-ready *));
 
 /*
  * Design tokens. Orange (--you) means "your brand" and nothing else.

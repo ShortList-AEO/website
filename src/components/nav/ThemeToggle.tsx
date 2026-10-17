@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { site } from "@/content/site";
-import { MQ } from "@/lib/gsap";
+const REDUCED = "(prefers-reduced-motion: reduce)";
 
 /**
  * Light/dark toggle. Remembers the choice (next-themes, localStorage).
@@ -21,7 +21,7 @@ export function ThemeToggle() {
       root.style.colorScheme = next;
       setTheme(next);
     };
-    if (!document.startViewTransition || window.matchMedia(MQ.reduced).matches) {
+    if (!document.startViewTransition || window.matchMedia(REDUCED).matches) {
       apply();
       return;
     }

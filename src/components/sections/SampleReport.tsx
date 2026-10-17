@@ -1,6 +1,3 @@
-"use client";
-
-import { useRef } from "react";
 import { sampleReport as copy } from "@/content/home";
 import {
   CLIENT,
@@ -12,7 +9,6 @@ import {
   type Range,
 } from "@/content/sample-report";
 import { RangeBar, RangeValue } from "@/components/ui/RangeBar";
-import { useChartReveal } from "@/components/ui/useChartReveal";
 
 const SOV_MAX = 40;
 
@@ -179,11 +175,8 @@ function Gaps() {
 }
 
 export function SampleReport() {
-  const root = useRef<HTMLElement>(null);
-  useChartReveal(root);
-
   return (
-    <section ref={root} id={copy.id} aria-labelledby="report-h" className="section rule-top">
+    <section id={copy.id} aria-labelledby="report-h" className="section rule-top">
       <div className="wrap">
         <div className="mb-10 flex flex-col gap-3 rounded-[4px] border border-rule bg-surface px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
           <span className="t-label shrink-0 rounded-[3px] bg-ink px-2 py-0.5 !text-bg">Sample</span>

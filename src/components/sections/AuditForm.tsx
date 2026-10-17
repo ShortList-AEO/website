@@ -3,7 +3,7 @@
 import { useState } from "react";
 import * as m from "motion/react-m";
 import { auditForm as copy } from "@/content/form";
-import { auditSchema, type AuditField } from "@/lib/audit-schema";
+import type { AuditField } from "@/lib/audit-schema";
 
 type Errors = Partial<Record<AuditField | "server", string>>;
 type Status = "idle" | "sending" | "sent";
@@ -27,6 +27,8 @@ export function AuditForm() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    // zod loads on first submit, keeping it out of the page's initial JavaScript.
+    const { auditSchema } = await import("@/lib/audit-schema");
     const parsed = auditSchema.safeParse(data);
     if (!parsed.success) {
       const next: Errors = {};

@@ -5,14 +5,13 @@ import * as m from "motion/react-m";
 import { useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { site } from "@/content/site";
 import { CtaLink } from "@/components/ui/CtaLink";
-import { scrollToHash, useLenis } from "@/components/providers/SmoothScroll";
+import { scrollToHash, scrollToTop } from "@/lib/scroll";
 import { ThemeToggle } from "./ThemeToggle";
 
 /** Sticky nav: gains a backdrop and tightens once scrolled; hides on scroll down, returns on scroll up. */
 export function Nav() {
   const { scrollY, scrollYProgress } = useScroll();
   const reduce = useReducedMotion();
-  const lenis = useLenis();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -52,9 +51,7 @@ export function Nav() {
             transition={{ duration: 0.3 }}
             onClick={(e) => {
               e.preventDefault();
-              if (lenis.current) lenis.current.scrollTo(0);
-              else window.scrollTo({ top: 0 });
-              history.replaceState(null, "", " ");
+              scrollToTop();
             }}
           >
             {site.name}
@@ -67,7 +64,7 @@ export function Nav() {
                   className="text-[0.95rem] text-muted hover:text-ink"
                   onClick={(e) => {
                     e.preventDefault();
-                    scrollToHash(lenis.current, l.href);
+                    scrollToHash(l.href);
                   }}
                 >
                   {l.label}
